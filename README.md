@@ -136,7 +136,7 @@ service/kiali patched
 kubectl patch service tracing -n istio-system -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 ```
-service/jaeger-collector patched
+service/tracing patched
 ```
 
 インストールした内容を確認します。
