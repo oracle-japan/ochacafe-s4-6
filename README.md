@@ -3,9 +3,7 @@ Ochacafe4 #6 Observability再入門
 
 デモ環境の構築方法、資材置き場です。
 
-- デモ環境
-
-事前に[Kubernetesクラスタ（OKE）の構築](https://docs.oracle.com/ja-jp/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke.htm)、[OCIR初期セットアップ](https://docs.oracle.com/ja-jp/iaas/Content/Registry/Concepts/registryprerequisites.htm)が完了していることとGitHubアカウントを取得済みであることが前提です。
+事前に[Kubernetesクラスタ（OKE）の構築](https://docs.oracle.com/ja-jp/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke.htm)、[OCIR初期セットアップ](https://docs.oracle.com/ja-jp/iaas/Content/Registry/Concepts/registryprerequisites.htm)が完了していることが前提です。
 
 ## 環境構築
 
