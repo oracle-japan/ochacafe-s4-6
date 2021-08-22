@@ -294,6 +294,8 @@ zipkin                 ClusterIP      10.96.184.172   <none>        9411/TCP
 
 ### Grafana Loki Install & Set up
 
+#### Install
+
 ```
 helm repo add grafana https://grafana.github.io/helm-charts
 ```
@@ -353,6 +355,8 @@ loki-promtail-rlrq2                     1/1     Running   0          2m46s
 loki-promtail-s7rfz                     1/1     Running   0          2m46s
 prometheus-9f4947649-c7swm              2/2     Running   0          36m
 ```
+
+#### Set up
 
 Grafanaダッシュボードを開いて、左メニューの[Configuration]-[Data Sources]を選択します。
 
