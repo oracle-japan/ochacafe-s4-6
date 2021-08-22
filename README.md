@@ -364,7 +364,7 @@ Grafanaダッシュボードを開いて、左メニューの[Configuration]-[Da
 
 「Logging & document databases」にある「Loki」にカーソルを合わせて「Select」ボタンをクリックします。
 
-Lokiの設定画面の「URL」に「http://loki:3100」と入力して、「Save & Test」ボタンをクリックします。
+Lokiの設定画面の「URL」に「http://loki:3100/」と入力して、「Save & Test」ボタンをクリックします。
 
 左メニューの「Explore」を選択して、プルダウンメニューのLokiを選択できれば完了です。
 
