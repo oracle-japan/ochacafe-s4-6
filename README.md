@@ -9,12 +9,12 @@ Ochacafe4 #6 Observability再入門
 
 Quick Create Clusterを利用して構築
 
-Name: cluster1
-Kubernetes version: v1.20.8
-Kubernetes API Endpoint: Public Endpoint
-Kubernetes Worker Nodes: Public Workers
-Shape: VM.Standard.E3 Flex vCpu 2 Mem 32
-Nuber of nodes: 3
+* Name: cluster1
+* Kubernetes version: v1.20.8
+* Kubernetes API Endpoint: Public Endpoint
+* Kubernetes Worker Nodes: Public Workers
+* Shape: VM.Standard.E3 Flex vCpu 2 Mem 32
+* Nuber of nodes: 3
 
 ### Istio Install (addon install(Prometheus,Grafana,Kiali,Jaeger))
 
@@ -287,10 +287,10 @@ zipkin                 ClusterIP      10.96.184.172   <none>        9411/TCP
 
 以下ブラウザでアクセスします。NodeのEXTERNAL-IPは3個のうちどれでも大丈夫です。
 
-150.136.xxx.xxx:31147
-150.136.xxx.xxx:31746
-150.136.xxx.xxx:31964
-150.136.xxx.xxx:32418
+* Prometheus: 150.136.xxx.xxx:31147
+* Grafana: 150.136.xxx.xxx:31746
+* Kiali: 150.136.xxx.xxx:31964
+* Jaeger 150.136.xxx.xxx:32418
 
 ### Grafana Loki Install & Set up
 
