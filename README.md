@@ -290,7 +290,7 @@ zipkin                 ClusterIP      10.96.184.172   <none>        9411/TCP
 * Prometheus: 150.136.xxx.xxx:31147
 * Grafana: 150.136.xxx.xxx:31746
 * Kiali: 150.136.xxx.xxx:31964
-* Jaeger 150.136.xxx.xxx:32418
+* Jaeger: 150.136.xxx.xxx:32418
 
 ### Grafana Loki Install & Set up
 
