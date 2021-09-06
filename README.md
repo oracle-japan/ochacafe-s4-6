@@ -306,6 +306,17 @@ spec:
             path: /sys
 ```
 
+node exporterをインストールします。
+
+```
+kubectl apply -f node-exporter-ochacafe.yaml
+```
+```
+serviceaccount/node-exporter-ochacafe created
+service/node-exporter-ochacafe created
+daemonset.apps/node-exporter-ochacafe created
+```
+
 node-exporter-ochacafeというPodが3個稼働していることを確認します。
 
 ```
@@ -470,6 +481,8 @@ reviews-v3-84779c7bbc-h4kmw             2/2     Running   0          43s
 ・
 ```
 
+gatewayを作成します。
+
 ```
 kubectl apply -n istio-system -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/bookinfo/networking/bookinfo-gateway.yaml
 ```
@@ -478,6 +491,8 @@ gateway.networking.istio.io/bookinfo-gateway created
 virtualservice.networking.istio.io/bookinfo created
 ```
 
+bookinfo-gatewayが作成されたことを確認します。
+
 ```
 kubectl get gateway -n istio-system
 ```
@@ -485,6 +500,8 @@ kubectl get gateway -n istio-system
 NAME               AGE
 bookinfo-gateway   28s
 ```
+
+実際にcurlで接続確認します。
 
 ```
 curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
