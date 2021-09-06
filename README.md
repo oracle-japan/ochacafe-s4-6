@@ -120,77 +120,6 @@ deployment.apps/prometheus created
 
 Prometheus、Grafana、Kiali、JaegerのWebUIにブラウザからアクセスできるようにします。
 
-<!--
-```kubectl
-kubectl patch service prometheus -n istio-system -p '{"spec": {"type": "LoadBalancer"}}'
-```
-```
-service/prometheus patched
-```
-
-```kubectl
-kubectl patch service grafana -n istio-system -p '{"spec": {"type": "LoadBalancer"}}'
-```
-```
-service/grafana patched
-```
-
-```kubectl
-kubectl patch service kiali -n istio-system -p '{"spec": {"type": "LoadBalancer"}}'
-```
-```
-service/kiali patched
-```
-
-```kubectl
-kubectl patch service tracing -n istio-system -p '{"spec": {"type": "LoadBalancer"}}'
-```
-```
-service/tracing patched
-```
-
-インストールした内容を確認します。
-
-```kubectl
-kubectl get services,deployments -n istio-system -o wide
-```
-```
-NAME                           TYPE           CLUSTER-IP     EXTERNAL-IP      PORT(S)                                                                      AGE   SELECTOR
-service/grafana                LoadBalancer   10.56.5.57     34.84.241.xxx    3000:32659/TCP                                                               30m   app.kubernetes.io/instance=grafana,app.kubernetes.io/name=grafana
-service/istio-egressgateway    ClusterIP      10.56.0.60     <none>           80/TCP,443/TCP                                                               61m   app=istio-egressgateway,istio=egressgateway
-service/istio-ingressgateway   LoadBalancer   10.56.14.58    34.84.61.xxx     15021:32344/TCP,80:31336/TCP,443:30128/TCP,31400:32249/TCP,15443:31226/TCP   61m   app=istio-ingressgateway,istio=ingressgateway
-service/istiod                 ClusterIP      10.56.3.178    <none>           15010/TCP,15012/TCP,443/TCP,15014/TCP                                        61m   app=istiod,istio=pilot
-service/jaeger-collector       ClusterIP      10.56.1.226    <none>           14268/TCP,14250/TCP,9411/TCP                                                 30m   app=jaeger
-service/kiali                  LoadBalancer   10.56.10.122   34.146.209.xxx   20001:30355/TCP,9090:32447/TCP                                               30m   app.kubernetes.io/instance=kiali,app.kubernetes.io/name=kiali
-service/prometheus             LoadBalancer   10.56.1.157    34.146.205.xxx   9090:31718/TCP                                                               30m   app=prometheus,component=server,release=prometheus
-service/tracing                LoadBalancer   10.56.4.92     35.243.122.xxx   80:31885/TCP,16685:30654/TCP                                                 30m   app=jaeger
-service/zipkin                 ClusterIP      10.56.14.192   <none>           9411/TCP                                                                     30m   app=jaeger
-
-NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS                                             IMAGES                                                       SELECTOR
-deployment.apps/grafana                1/1     1            1           30m   grafana                                                grafana/grafana:7.5.5                                        app.kubernetes.io/instance=grafana,app.kubernetes.io/name=grafana
-deployment.apps/istio-egressgateway    1/1     1            1           61m   istio-proxy                                            docker.io/istio/proxyv2:1.11.0                               app=istio-egressgateway,istio=egressgateway
-deployment.apps/istio-ingressgateway   1/1     1            1           61m   istio-proxy                                            docker.io/istio/proxyv2:1.11.0                               app=istio-ingressgateway,istio=ingressgateway
-deployment.apps/istiod                 1/1     1            1           61m   discovery                                              docker.io/istio/pilot:1.11.0                                 istio=pilot
-deployment.apps/jaeger                 1/1     1            1           30m   jaeger                                                 docker.io/jaegertracing/all-in-one:1.23                      app=jaeger
-deployment.apps/kiali                  1/1     1            1           30m   kiali                                                  quay.io/kiali/kiali:v1.38                                    app.kubernetes.io/instance=kiali,app.kubernetes.io/name=kiali
-deployment.apps/prometheus             1/1     1            1           30m   prometheus-server-configmap-reload,prometheus-server   jimmidyson/configmap-reload:v0.5.0,prom/prometheus:v2.26.0   app=prometheus,component=server,release=prometheus
-```
-
-以下ブラウザでアクセスするとWebUIを確認できます。
-
-Prometheus WebUI
-http://34.146.205.xxx:9090/
-
-Grafana WebUI
-http://34.84.241.xxx:3000/
-
-Kiali WebUI
-http://34.146.209.xxx:20001/
-
-Jaeger WebUI
-http://35.243.122.xxx/
--->
-
 ```
 kubectl patch service prometheus -n istio-system -p '{"spec": {"type": "NodePort"}}'
 ```
@@ -284,13 +213,110 @@ tracing                NodePort       10.96.216.254   <none>        80:32418/TCP
 zipkin                 ClusterIP      10.96.184.172   <none>        9411/TCP
 ```
 
-
 以下ブラウザでアクセスします。NodeのEXTERNAL-IPは3個のうちどれでも大丈夫です。
 
 * Prometheus: 150.136.xxx.xxx:31147
 * Grafana: 150.136.xxx.xxx:31746
 * Kiali: 150.136.xxx.xxx:31964
 * Jaeger: 150.136.xxx.xxx:32418
+
+### node exporter Install
+
+node exporterのDaemonSetを作成します。
+
+```
+vim node-exporter-ochacafe.yaml
+```
+```
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: node-exporter-ochacafe
+  name: node-exporter-ochacafe
+  namespace: default
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: "true"
+  labels:
+    app: node-exporter-ochacafe
+  name: node-exporter-ochacafe
+  namespace: default
+spec:
+  clusterIP: None
+  ports:
+    - name: metrics
+      port: 9100
+      protocol: TCP
+      targetPort: 9100
+  selector:
+    app: node-exporter-ochacafe
+  type: "ClusterIP"
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: node-exporter-ochacafe 
+  name: node-exporter-ochacafe
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: node-exporter-ochacafe
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: node-exporter-ochacafe
+    spec:
+      serviceAccountName: node-exporter-ochacafe
+      containers:
+        - name: node-exporter-ochacafe
+          image: "prom/node-exporter:v1.2.2"
+          imagePullPolicy: "IfNotPresent"
+          args:
+            - --path.procfs=/host/proc
+            - --path.sysfs=/host/sys
+          ports:
+            - name: metrics
+              containerPort: 9100
+              hostPort: 9100
+          resources:
+            {}
+          volumeMounts:
+            - name: proc
+              mountPath: /host/proc
+              readOnly:  true
+            - name: sys
+              mountPath: /host/sys
+              readOnly: true
+      hostNetwork: true
+      hostPID: true
+      volumes:
+        - name: proc
+          hostPath:
+            path: /proc
+        - name: sys
+          hostPath:
+            path: /sys
+```
+
+node-exporter-ochacafeというPodが3個稼働していることを確認します。
+
+```
+kubectl get pods
+```
+```
+NAME                           READY   STATUS    RESTARTS   AGE
+node-exporter-ochacafe-7x7m7   1/1     Running   0          53s
+node-exporter-ochacafe-hbjnd   1/1     Running   0          53s
+node-exporter-ochacafe-nzd4l   1/1     Running   0          53s
+```
 
 ### Grafana Loki Install & Set up
 
@@ -367,4 +393,109 @@ Grafanaダッシュボードを開いて、左メニューの[Configuration]-[Da
 Lokiの設定画面の「URL」に「http://loki:3100/」と入力して、「Save & Test」ボタンをクリックします。
 
 左メニューの「Explore」を選択して、プルダウンメニューのLokiを選択できれば完了です。
+
+### BookInfo Application Install
+
+istio-ingressgatewayのEXTERNAL-IPとPort番号を変数化します。
+
+```
+export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+```
+```
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+```
+
+さらにGATEWAY_URLとしてINGRESS_HOSTとINGRESS_PORTを変数化します。
+
+```
+export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+```
+
+自動サイドカーインジェクションのラベルを付与します。
+
+```
+kubectl label namespace istio-system istio-injection=enabled
+```
+
+BookInfoアプリケーションをインストールします。
+
+```
+kubectl apply -n istio-system -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/bookinfo/platform/kube/bookinfo.yaml
+service/details created
+serviceaccount/bookinfo-details created
+deployment.apps/details-v1 created
+service/ratings created
+serviceaccount/bookinfo-ratings created
+deployment.apps/ratings-v1 created
+service/reviews created
+serviceaccount/bookinfo-reviews created
+deployment.apps/reviews-v1 created
+deployment.apps/reviews-v2 created
+deployment.apps/reviews-v3 created
+service/productpage created
+serviceaccount/bookinfo-productpage created
+deployment.apps/productpage-v1 created
+```
+
+以下のServiceが稼働していることを確認します。
+
+```
+kubectl get services -n istio-system
+```
+```
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                                                                      AGE
+istio-ingressgateway   LoadBalancer   10.96.66.68     146.56.xxx.xxx   15021:31788/TCP,80:30987/TCP,443:31448/TCP,31400:32379/TCP,15443:31984/TCP   4h29m
+ratings                ClusterIP      10.96.124.47    <none>           9080/TCP                                                                     31s
+reviews                ClusterIP      10.96.231.88    <none>           9080/TCP                                                                     28s
+・
+・
+・
+```
+
+以下のPodが稼働していることを確認します。
+
+```
+kubectl get pods -n istio-system
+```
+```
+NAME                                    READY   STATUS    RESTARTS   AGE
+details-v1-79f774bdb9-89gdb             2/2     Running   0          54s
+productpage-v1-6b746f74dc-mds9n         2/2     Running   0          38s
+ratings-v1-b6994bb9-q4tk4               2/2     Running   0          50s
+reviews-v1-545db77b95-lfmmf             2/2     Running   0          46s
+reviews-v2-7bf8c9648f-rwx6p             2/2     Running   0          45s
+reviews-v3-84779c7bbc-h4kmw             2/2     Running   0          43s
+・
+・
+・
+```
+
+```
+kubectl apply -n istio-system -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/bookinfo/networking/bookinfo-gateway.yaml
+```
+```
+gateway.networking.istio.io/bookinfo-gateway created
+virtualservice.networking.istio.io/bookinfo created
+```
+
+```
+kubectl get gateway -n istio-system
+```
+```
+NAME               AGE
+bookinfo-gateway   28s
+```
+
+```
+curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
+```
+```
+<title>Simple Bookstore App</title>
+```
+
+ブラウザを起動して、BookInfoアプリケーションに接続します。istio-ingressgatewayのEXTERNAL-IP
+
+http://146.56.xxxx.xxx/productpage
+
+![BookInfo](image/ochacafe-s4-6-01.png "BookInfo App")
 
