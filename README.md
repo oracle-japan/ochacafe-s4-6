@@ -149,13 +149,13 @@ service/tracing patched
 kubectl get services,deployments -n istio-system -o wide
 ```
 ```
-NAME                           TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                                                                      AGE   SELECTOR
-service/grafana                NodePort       10.96.96.80     <none>        3000:31746/TCP                                                               21m   app.kubernetes.io/instance=grafana,app.kubernetes.io/name=grafana
-service/istio-egressgateway    ClusterIP      10.96.110.50    <none>        80/TCP,443/TCP                                                               22m   app=istio-egressgateway,istio=egressgateway
-service/istio-ingressgateway   LoadBalancer   10.96.16.94     <pending>     15021:32007/TCP,80:32374/TCP,443:32343/TCP,31400:30388/TCP,15443:31719/TCP   22m   app=istio-ingressgateway,istio=ingressgateway
-service/istiod                 ClusterIP      10.96.235.244   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP                                        22m   app=istiod,istio=pilot
-service/jaeger-collector       ClusterIP      10.96.121.97    <none>        14268/TCP,14250/TCP,9411/TCP                                                 21m   app=jaeger
-service/kiali                  NodePort       10.96.182.15    <none>        20001:31964/TCP,9090:31854/TCP                                               21m   app.kubernetes.io/instance=kiali,app.kubernetes.io/name=kiali
+NAME                           TYPE           CLUSTER-IP      EXTERNAL-IP         PORT(S)                                                                      AGE   SELECTOR
+service/grafana                NodePort       10.96.96.80     <none>              3000:31746/TCP                                                               21m   app.kubernetes.io/instance=grafana,app.kubernetes.io/name=grafana
+service/istio-egressgateway    ClusterIP      10.96.110.50    <none>              80/TCP,443/TCP                                                               22m   app=istio-egressgateway,istio=egressgateway
+service/istio-ingressgateway   LoadBalancer   10.96.16.94     xxx.xxx.xxx.xxx     15021:32007/TCP,80:32374/TCP,443:32343/TCP,31400:30388/TCP,15443:31719/TCP   22m   app=istio-ingressgateway,istio=ingressgateway
+service/istiod                 ClusterIP      10.96.235.244   <none>              15010/TCP,15012/TCP,443/TCP,15014/TCP                                        22m   app=istiod,istio=pilot
+service/jaeger-collector       ClusterIP      10.96.121.97    <none>              14268/TCP,14250/TCP,9411/TCP                                                 21m   app=jaeger
+service/kiali                  NodePort       10.96.182.15    <none>              20001:31964/TCP,9090:31854/TCP                                               21m   app.kubernetes.io/instance=kiali,app.kubernetes.io/name=kiali
 service/prometheus             NodePort       10.96.238.223   <none>        9090:31147/TCP                                                               21m   app=prometheus,component=server,release=prometheus
 service/tracing                NodePort       10.96.216.254   <none>        80:32418/TCP,16685:31229/TCP                                                 21m   app=jaeger
 service/zipkin                 ClusterIP      10.96.184.172   <none>        9411/TCP                                                                     21m   app=jaeger
@@ -191,7 +191,7 @@ kubectl get nodes -o wide
 ```
 NAME          STATUS   ROLES   AGE     VERSION   INTERNAL-IP   EXTERNAL-IP       OS-IMAGE                  KERNEL-VERSION                    CONTAINER-RUNTIME
 10.0.10.133   Ready    node    7m13s   v1.20.8   10.0.10.133   150.136.xxx.xxx    Oracle Linux Server 7.9   5.4.17-2102.203.6.el7uek.x86_64   cri-o://1.20.2
-10.0.10.179   Ready    node    7m23s   v1.20.8   10.0.10.179   132.145.xxx.xxx   Oracle Linux Server 7.9   5.4.17-2102.203.6.el7uek.x86_64   cri-o://1.20.2
+10.0.10.179   Ready    node    7m23s   v1.20.8   10.0.10.179   132.145.xxx.xxx    Oracle Linux Server 7.9   5.4.17-2102.203.6.el7uek.x86_64   cri-o://1.20.2
 10.0.10.84    Ready    node    7m19s   v1.20.8   10.0.10.84    129.213.xxx.xxx    Oracle Linux Server 7.9   5.4.17-2102.203.6.el7uek.x86_64   cri-o://1.20.2
 ```
 
@@ -201,16 +201,16 @@ Prometheus,Grafana,Kiali,JaegerのNodePortを確認します。
 kubectl get services -n istio-system
 ```
 ```
-NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                                                                      AGE
-grafana                NodePort       10.96.96.80     <none>        3000:31746/TCP                                                               25m
-istio-egressgateway    ClusterIP      10.96.110.50    <none>        80/TCP,443/TCP                                                               25m
-istio-ingressgateway   LoadBalancer   10.96.16.94     <pending>     15021:32007/TCP,80:32374/TCP,443:32343/TCP,31400:30388/TCP,15443:31719/TCP   25m
-istiod                 ClusterIP      10.96.235.244   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP                                        25m
-jaeger-collector       ClusterIP      10.96.121.97    <none>        14268/TCP,14250/TCP,9411/TCP                                                 25m
-kiali                  NodePort       10.96.182.15    <none>        20001:31964/TCP,9090:31854/TCP                                               25m
-prometheus             NodePort       10.96.238.223   <none>        9090:31147/TCP                                                               25m
-tracing                NodePort       10.96.216.254   <none>        80:32418/TCP,16685:31229/TCP                                                 25m
-zipkin                 ClusterIP      10.96.184.172   <none>        9411/TCP
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP         PORT(S)                                                                      AGE
+grafana                NodePort       10.96.96.80     <none>              3000:31746/TCP                                                               25m
+istio-egressgateway    ClusterIP      10.96.110.50    <none>              80/TCP,443/TCP                                                               25m
+istio-ingressgateway   LoadBalancer   10.96.16.94     xxx.xxx.xxx.xxx     15021:32007/TCP,80:32374/TCP,443:32343/TCP,31400:30388/TCP,15443:31719/TCP   25m
+istiod                 ClusterIP      10.96.235.244   <none>              15010/TCP,15012/TCP,443/TCP,15014/TCP                                        25m
+jaeger-collector       ClusterIP      10.96.121.97    <none>              14268/TCP,14250/TCP,9411/TCP                                                 25m
+kiali                  NodePort       10.96.182.15    <none>              20001:31964/TCP,9090:31854/TCP                                               25m
+prometheus             NodePort       10.96.238.223   <none>              9090:31147/TCP                                                               25m
+tracing                NodePort       10.96.216.254   <none>              80:32418/TCP,16685:31229/TCP                                                 25m
+zipkin                 ClusterIP      10.96.184.172   <none>              9411/TCP
 ```
 
 以下ブラウザでアクセスします。NodeのEXTERNAL-IPは3個のうちどれでも大丈夫です。
@@ -225,108 +225,24 @@ zipkin                 ClusterIP      10.96.184.172   <none>        9411/TCP
 node exporterのDaemonSetを作成します。
 
 ```
-vim node-exporter-ochacafe.yaml
+kubectl apply -f 
 ```
 ```
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  labels:
-    app: node-exporter-ochacafe
-  name: node-exporter-ochacafe
-  namespace: default
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    prometheus.io/scrape: "true"
-  labels:
-    app: node-exporter-ochacafe
-  name: node-exporter-ochacafe
-  namespace: default
-spec:
-  clusterIP: None
-  ports:
-    - name: metrics
-      port: 9100
-      protocol: TCP
-      targetPort: 9100
-  selector:
-    app: node-exporter-ochacafe
-  type: "ClusterIP"
----
-apiVersion: apps/v1
-kind: DaemonSet
-metadata:
-  labels:
-    app: node-exporter-ochacafe 
-  name: node-exporter-ochacafe
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      app: node-exporter-ochacafe
-  updateStrategy:
-    type: RollingUpdate
-  template:
-    metadata:
-      labels:
-        app: node-exporter-ochacafe
-    spec:
-      serviceAccountName: node-exporter-ochacafe
-      containers:
-        - name: node-exporter-ochacafe
-          image: "prom/node-exporter:v1.2.2"
-          imagePullPolicy: "IfNotPresent"
-          args:
-            - --path.procfs=/host/proc
-            - --path.sysfs=/host/sys
-          ports:
-            - name: metrics
-              containerPort: 9100
-              hostPort: 9100
-          resources:
-            {}
-          volumeMounts:
-            - name: proc
-              mountPath: /host/proc
-              readOnly:  true
-            - name: sys
-              mountPath: /host/sys
-              readOnly: true
-      hostNetwork: true
-      hostPID: true
-      volumes:
-        - name: proc
-          hostPath:
-            path: /proc
-        - name: sys
-          hostPath:
-            path: /sys
+serviceaccount/node-exporter-handson created
+service/node-exporter-handson created
+daemonset.apps/node-exporter-handson created
 ```
 
-node exporterをインストールします。
-
-```
-kubectl apply -f node-exporter-ochacafe.yaml
-```
-```
-serviceaccount/node-exporter-ochacafe created
-service/node-exporter-ochacafe created
-daemonset.apps/node-exporter-ochacafe created
-```
-
-node-exporter-ochacafeというPodが3個稼働していることを確認します。
+node-exporter-handsonというPodが3個稼働していることを確認します。
 
 ```
 kubectl get pods
 ```
 ```
 NAME                           READY   STATUS    RESTARTS   AGE
-node-exporter-ochacafe-7x7m7   1/1     Running   0          53s
-node-exporter-ochacafe-hbjnd   1/1     Running   0          53s
-node-exporter-ochacafe-nzd4l   1/1     Running   0          53s
+node-exporter-handson-7x7m7   1/1     Running   0          53s
+node-exporter-handson-hbjnd   1/1     Running   0          53s
+node-exporter-handson-nzd4l   1/1     Running   0          53s
 ```
 
 ### Grafana Loki Install & Set up
