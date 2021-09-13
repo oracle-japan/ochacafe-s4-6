@@ -225,7 +225,7 @@ zipkin                 ClusterIP      10.96.184.172   <none>              9411/T
 node exporterのDaemonSetを作成します。
 
 ```
-kubectl apply -f 
+kubectl apply -f https://raw.githubusercontent.com/oracle-japan/ochacafe-s4-6/main/manifests/node-exporter-handson.yaml
 ```
 ```
 serviceaccount/node-exporter-handson created
