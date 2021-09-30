@@ -172,7 +172,7 @@ deployment.apps/prometheus             1/1     1            1           21m   pr
 
 OCIダッシュボードから、[Networking]-[Virtual Cloud Networks]を選択して対象のVCNを選択します。
 
-3つあるうちの一番上段のものを選択します。
+「oke-vcn-quick-cluster1-xxxxxxxxx-regional」を選択します。
 
 「oke-nodesubnet-quick-cluster1-xxxxxxxxx-regional」を選択します。
 
@@ -181,7 +181,7 @@ OCIダッシュボードから、[Networking]-[Virtual Cloud Networks]を選択�
 以下を設定して、「Add Ingress Rules」ボタンをクリックします。
 
 SOURCE CIDR: 0.0.0.0/0
-IP PROTOCOL: All Protocols
+Destination Port Range: 30000-65535
 
 NodeのEXTERNAL-IPを確認します。
 
@@ -348,6 +348,8 @@ BookInfoアプリケーションをインストールします。
 
 ```
 kubectl apply -n istio-system -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/bookinfo/platform/kube/bookinfo.yaml
+```
+```
 service/details created
 serviceaccount/bookinfo-details created
 deployment.apps/details-v1 created
